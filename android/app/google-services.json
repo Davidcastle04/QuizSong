@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "681603376101",
+    "project_id": "quizsong-99c56",
+    "storage_bucket": "quizsong-99c56.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681603376101:android:ce57d0c31a5cae497b850c",
+        "android_client_info": {
+          "package_name": "ujaen.ssmultimedia.songquiz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzkAYKItY64JtQt0Khq0yz2puYHNp4m5Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
