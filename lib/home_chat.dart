@@ -20,7 +20,7 @@ class _HomeChatState extends State<HomeChat> {
             TextField(
               controller: null,
               decoration: InputDecoration(
-                hinText: 'Username',
+                hintText: 'Username',
               ), //InputDecoration
             ), //TextField
             ElevatedButton(
