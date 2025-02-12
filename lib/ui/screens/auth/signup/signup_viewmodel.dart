@@ -88,7 +88,7 @@ class SignupViewmodel extends BaseViewmodel {
       }
 
       setstate(ViewState.idle);
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       setstate(ViewState.idle);
       rethrow;
     } catch (e) {

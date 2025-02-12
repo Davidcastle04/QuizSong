@@ -4,16 +4,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        // Clase para el plugin de Gradle de Android
         classpath 'com.android.tools.build:gradle:8.2.1'
-        // Clase para el plugin de Google Services
-        classpath 'com.google.gms:google-services:4.3.15'
     }
-}
-
-plugins {
-    // Define el plugin para Android, debe estar en plugins si lo usas.
-    id 'com.google.gms.google-services' version '4.3.15' apply false
 }
 
 allprojects {

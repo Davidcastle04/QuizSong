@@ -3,7 +3,6 @@ import 'package:quizsong/core/constants/styles.dart';
 import 'package:quizsong/core/extension/widget_extension.dart';
 import 'package:quizsong/core/models/user_model.dart';
 import 'package:quizsong/core/services/chat_service.dart';
-import 'package:quizsong/ui/screens/auth/login/login_screen.dart';
 import 'package:quizsong/ui/screens/bottom_navigation/chats_list/chat_room/chat_viewmodel.dart';
 import 'package:quizsong/ui/screens/bottom_navigation/chats_list/chat_room/chat_widgets.dart';
 import 'package:quizsong/ui/screens/other/user_provider.dart';

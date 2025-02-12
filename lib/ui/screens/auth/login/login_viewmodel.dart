@@ -32,7 +32,7 @@ class LoginViewmodel extends BaseViewmodel {
     try {
       await _auth.login(_email, _password);
       setstate(ViewState.idle);
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       setstate(ViewState.idle);
       rethrow;
     } catch (e) {
