@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:quizsong/ui/screens/splash/splash_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'generated/l10n.dart';
 
 
 void main() async {
@@ -25,6 +28,12 @@ class QuizSong extends StatelessWidget {
       builder: (context, child) => ChangeNotifierProvider(
         create: (context) => UserProvider(DatabaseService()),
         child: MaterialApp(
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
           onGenerateRoute: RouteUtils.onGenerateRoute,
           home: SplashScreen(),
         ),

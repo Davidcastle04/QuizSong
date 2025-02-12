@@ -1,22 +1,20 @@
 plugins {
-    id "com.android.application"
+    id "com.android.application" version "8.2.1" apply false  // Versión recomendada de Android Gradle Plugin
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
     id 'com.google.gms.google-services'
 }
-
 android {
-    namespace = "ujaen.ssmultimedia.songquiz"
     compileSdk = 34
     ndkVersion = "25.1.8937393" // Asegúrate de que coincida con tu NDK instalado
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11  // Actualizado a Java 11
+        targetCompatibility = JavaVersion.VERSION_11  // Actualizado a Java 11
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = "11"  // Actualizado a Java 11
     }
 
     defaultConfig {
@@ -35,6 +33,7 @@ android {
     }
 }
 
+
 flutter {
     source = "../.."
 }
@@ -46,6 +45,8 @@ dependencies {
     // Firebase Analytics
     implementation 'com.google.firebase:firebase-analytics'
 
-    // Agrega más productos de Firebase si los necesitas
-    // Ejemplo: implementation 'com.google.firebase:firebase-auth'
+    // Firebase Auth (si la necesitas)
+    implementation 'com.google.firebase:firebase-auth'
+
+    // Otras dependencias de Firebase según tu aplicación
 }
