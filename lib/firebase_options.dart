@@ -17,29 +17,17 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -59,4 +47,43 @@ class DefaultFirebaseOptions {
     projectId: 'quizsong-99c56',
     storageBucket: 'quizsong-99c56.firebasestorage.app',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyAsLhE1fe3Pzg8RAo11tW2GMqYJVOtbKoE',
+    appId: '1:681603376101:web:74dbd3a68258b1aa7b850c',
+    messagingSenderId: '681603376101',
+    projectId: 'quizsong-99c56',
+    authDomain: 'quizsong-99c56.firebaseapp.com',
+    storageBucket: 'quizsong-99c56.firebasestorage.app',
+    measurementId: 'G-Y7L64W5Q0B',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyBQr9I5_eo3fXubf9nfW1BlP04cAsa73cE',
+    appId: '1:681603376101:ios:a4c41c2a939d243e7b850c',
+    messagingSenderId: '681603376101',
+    projectId: 'quizsong-99c56',
+    storageBucket: 'quizsong-99c56.firebasestorage.app',
+    iosBundleId: 'ujaen.ssmultimedia.songquiz',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyBQr9I5_eo3fXubf9nfW1BlP04cAsa73cE',
+    appId: '1:681603376101:ios:a4c41c2a939d243e7b850c',
+    messagingSenderId: '681603376101',
+    projectId: 'quizsong-99c56',
+    storageBucket: 'quizsong-99c56.firebasestorage.app',
+    iosBundleId: 'ujaen.ssmultimedia.songquiz',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyAsLhE1fe3Pzg8RAo11tW2GMqYJVOtbKoE',
+    appId: '1:681603376101:web:4c5a6de81784fbdd7b850c',
+    messagingSenderId: '681603376101',
+    projectId: 'quizsong-99c56',
+    authDomain: 'quizsong-99c56.firebaseapp.com',
+    storageBucket: 'quizsong-99c56.firebasestorage.app',
+    measurementId: 'G-CB6247BBEH',
+  );
+
 }

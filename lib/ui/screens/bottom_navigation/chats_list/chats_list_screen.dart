@@ -28,11 +28,11 @@ class ChatsListScreen extends StatelessWidget {
               30.verticalSpace,
               Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Chats", style: h)),
+                  child: Text("QuizSong", style: h)),
               20.verticalSpace,
               CustomTextfield(
                 isSearch: true,
-                hintText: "Search here...",
+                hintText: "Buscar aqui ...",
                 onChanged: model.search,
               ),
               10.verticalSpace,
