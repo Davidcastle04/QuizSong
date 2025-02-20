@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Center(
             child: InkWell(
               onTap: () {
-                AuthService().logout();
+                AuthService().salirUsuario();
               },
               child: Image.asset(
                 logo,

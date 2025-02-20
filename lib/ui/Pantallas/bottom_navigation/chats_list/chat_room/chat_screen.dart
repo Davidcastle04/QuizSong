@@ -3,9 +3,9 @@ import 'package:quizsong/core/constants/styles.dart';
 import 'package:quizsong/core/extension/widget_extension.dart';
 import 'package:quizsong/core/models/user_model.dart';
 import 'package:quizsong/core/services/chat_service.dart';
-import 'package:quizsong/ui/screens/bottom_navigation/chats_list/chat_room/chat_viewmodel.dart';
-import 'package:quizsong/ui/screens/bottom_navigation/chats_list/chat_room/chat_widgets.dart';
-import 'package:quizsong/ui/screens/other/user_provider.dart';
+import 'package:quizsong/ui/Pantallas/bottom_navigation/chats_list/chat_room/chat_viewmodel.dart';
+import 'package:quizsong/ui/Pantallas/bottom_navigation/chats_list/chat_room/chat_widgets.dart';
+import 'package:quizsong/ui/Pantallas/other/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -37,12 +37,12 @@ class ChatScreen extends StatelessWidget {
                           padding: const EdgeInsets.all(0),
                           itemCount: model.messages.length,
                           separatorBuilder: (context, index) =>
-                              10.verticalSpace,
+                          10.verticalSpace,
                           itemBuilder: (context, index) {
                             final message = model.messages[index];
                             return ChatBubble(
                               isCurrentUser:
-                                  message.senderId == currentUser!.uid,
+                              message.senderId == currentUser!.uid,
                               message: message,
                             );
                           },
@@ -88,12 +88,31 @@ class ChatScreen extends StatelessWidget {
           style: h.copyWith(fontSize: 20.sp),
         ),
         const Spacer(),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.r),
-              color: grey.withOpacity(0.15)),
-          child: const Icon(Icons.more_vert),
+        PopupMenuButton<String>(
+          onSelected: (value) {
+            if (value == 'delete') {
+              // TODO: Implementar lógica para borrar la conversación
+            } else if (value == 'view_image') {
+              // TODO: Implementar lógica para ver la imagen del usuario
+            }
+          },
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              value: 'delete',
+              child: Text('Borrar Conversación'),
+            ),
+            PopupMenuItem(
+              value: 'view_image',
+              child: Text('Ver Imagen del Usuario'),
+            ),
+          ],
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.r),
+                color: grey.withOpacity(0.15)),
+            child: const Icon(Icons.more_vert),
+          ),
         ),
       ],
     );

@@ -3,13 +3,13 @@ import 'package:quizsong/core/constants/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CustomButton extends StatelessWidget {
-  const CustomButton(
-      {super.key, required this.text, this.onPressed, this.loading = false});
+class BotonPersonalizable extends StatelessWidget {
+  const BotonPersonalizable(
+      {super.key, required this.texto, this.onPressed, this.estadoCarga = false});
 
   final void Function()? onPressed;
-  final String text;
-  final bool loading;
+  final String texto;
+  final bool estadoCarga;
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +19,11 @@ class CustomButton extends StatelessWidget {
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(backgroundColor: primary),
           onPressed: onPressed,
-          child: loading
+          child: estadoCarga
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
-              : Text(text, style: body.copyWith(color: white))),
+              : Text(texto, style: body.copyWith(color: white))),
     );
   }
 }

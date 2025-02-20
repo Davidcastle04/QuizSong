@@ -1,8 +1,8 @@
 import 'dart:developer';
 
-import 'package:quizsong/ui/screens/auth/login/login_screen.dart';
-import 'package:quizsong/ui/screens/bottom_navigation/bottom_navigation_screen.dart';
-import 'package:quizsong/ui/screens/other/user_provider.dart';
+import 'package:quizsong/ui/Pantallas/auth/login/login_screen.dart';
+import 'package:quizsong/ui/Pantallas/bottom_navigation/bottom_navigation_screen.dart';
+import 'package:quizsong/ui/Pantallas/other/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

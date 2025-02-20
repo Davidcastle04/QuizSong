@@ -1,6 +1,6 @@
- import 'dart:developer';
+import 'dart:developer';
 import 'dart:io';
-
+import 'dart:typed_data';
 import 'package:quizsong/core/enums/enums.dart';
 import 'package:quizsong/core/models/user_model.dart';
 import 'package:quizsong/core/other/base_viewmodel.dart';
@@ -9,6 +9,8 @@ import 'package:quizsong/core/services/database_service.dart';
 import 'package:quizsong/core/services/storage_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+
 
 class SignupViewmodel extends BaseViewmodel {
   final AuthService _auth;
@@ -28,15 +30,24 @@ class SignupViewmodel extends BaseViewmodel {
 
   File? get image => _image;
 
-  pickImage() async {
-    log("Pick Image");
-    final pic = await _picker.pickImage(source: ImageSource.gallery);
+  Future<void> pickImage() async {
+    final XFile? pickedFile =
+    await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    if (pic != null) {
-      _image = File(pic.path);
+    if (pickedFile != null) {
+      Uint8List uint8List = await pickedFile.readAsBytes();
+      _image = await convertUint8ListToFile(uint8List);
       notifyListeners();
     }
   }
+
+  Future<File> convertUint8ListToFile(Uint8List uint8List) async {
+    final tempDir = await getTemporaryDirectory();
+    final file = File('${tempDir.path}/temp_image.png');
+    await file.writeAsBytes(uint8List);
+    return file;
+  }
+
 
   void setName(String value) {
     _name = value;
@@ -74,7 +85,7 @@ class SignupViewmodel extends BaseViewmodel {
         throw Exception("The password do not match");
       }
 
-      final res = await _auth.signup(_email, _password);
+      final res = await _auth.inicioSesion(_email, _password);
 
       if (res != null) {
         if (_image != null) {
