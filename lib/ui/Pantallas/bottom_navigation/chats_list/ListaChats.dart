@@ -31,7 +31,7 @@ class ChatsListScreen extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "QuizSong",
-                  style: Theme.of(context).textTheme.headlineMedium, // 🔹 Usa tema
+                  style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 30),
                 ),
               ),
               20.verticalSpace,

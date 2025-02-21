@@ -73,12 +73,13 @@ class ChatScreen extends StatelessWidget {
     return Row(
       children: [
         InkWell(
-          onTap: () => Navigator.pop(context),
+          onTap: () => Navigator.pop(context), // ✅ Acción para volver atrás
           child: Container(
             padding: const EdgeInsets.only(left: 10, top: 6, bottom: 6),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                color: grey.withOpacity(0.15)),
+              borderRadius: BorderRadius.circular(8.r),
+              color: grey.withOpacity(0.15),
+            ),
             child: const Icon(Icons.arrow_back_ios),
           ),
         ),
@@ -88,6 +89,15 @@ class ChatScreen extends StatelessWidget {
           style: h.copyWith(fontSize: 20.sp),
         ),
         const Spacer(),
+        // Icono de llamada antes de los tres puntos
+        IconButton(
+          icon: const Icon(Icons.phone),
+          onPressed: () {
+            // TODO: Implementar la lógica para realizar una llamada
+            // Puedes agregar una lógica aquí para hacer una llamada
+          },
+        ),
+        // Menú de opciones
         PopupMenuButton<String>(
           onSelected: (value) {
             if (value == 'delete') {
@@ -97,11 +107,11 @@ class ChatScreen extends StatelessWidget {
             }
           },
           itemBuilder: (context) => [
-            PopupMenuItem(
+            const PopupMenuItem(
               value: 'delete',
               child: Text('Borrar Conversación'),
             ),
-            PopupMenuItem(
+            const PopupMenuItem(
               value: 'view_image',
               child: Text('Ver Imagen del Usuario'),
             ),
@@ -109,8 +119,9 @@ class ChatScreen extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                color: grey.withOpacity(0.15)),
+              borderRadius: BorderRadius.circular(8.r),
+              color: grey.withOpacity(0.15),
+            ),
             child: const Icon(Icons.more_vert),
           ),
         ),

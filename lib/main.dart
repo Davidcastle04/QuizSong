@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:quizsong/ui/Pantallas/splash/splash_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'core/utils/FontSizeProvider.dart';
 import 'generated/l10n.dart';
 
 // 📌 PROVEEDOR PARA MANEJAR EL TEMA DE LA APP
@@ -39,9 +40,10 @@ class QuizSong extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (context) => UserProvider(DatabaseService())),
           ChangeNotifierProvider(create: (context) => ThemeProvider()), // 📌 Proveedor del tema
+          ChangeNotifierProvider(create: (context) => FontSizeProvider()), // 📌 Proveedor del tamaño de la fuente
         ],
-        child: Consumer<ThemeProvider>(
-          builder: (context, themeProvider, child) {
+        child: Consumer2<ThemeProvider, FontSizeProvider>(
+          builder: (context, themeProvider, fontSizeProvider, child) {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               localizationsDelegates: [
@@ -50,9 +52,45 @@ class QuizSong extends StatelessWidget {
                 GlobalCupertinoLocalizations.delegate,
               ],
               supportedLocales: S.delegate.supportedLocales,
-              theme: ThemeData.light(),  // 🌞 Tema Claro
-              darkTheme: ThemeData.dark(),  // 🌙 Tema Oscuro
+              theme: ThemeData.light().copyWith(
+                textTheme: TextTheme(
+                  displayLarge: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.black),
+                  displayMedium: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.black87),
+                  displaySmall: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.black54),
+                  headlineMedium: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.black45),
+                  headlineSmall: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.black38),
+                  titleLarge: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.black26),
+                  titleMedium: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.black87),
+                  titleSmall: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.black54),
+                  bodyLarge: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.black),
+                  bodyMedium: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.black87),
+                  labelLarge: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.white),
+                  bodySmall: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.black54),
+                  labelSmall: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.black38),
+                ),
+              ),  // 🌞 Tema Claro
+
+              darkTheme: ThemeData.dark().copyWith(
+                textTheme: TextTheme(
+                  displayLarge: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.white),
+                  displayMedium: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.white70),
+                  displaySmall: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.white60),
+                  headlineMedium: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.white70),
+                  headlineLarge: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.white70),
+                  headlineSmall: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.white30),
+                  titleLarge: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.white24),
+                  titleMedium: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.white70),
+                  titleSmall: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.white60),
+                  bodyLarge: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.white),
+                  bodyMedium: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.white70),
+                  labelLarge: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.white),
+                  bodySmall: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.white60),
+                  labelSmall: TextStyle(fontSize: fontSizeProvider.fontSize, color: Colors.white70),
+                ),
+              ),  // 🌙 Tema Oscuro
+
               themeMode: themeProvider.themeMode, // 🌗 Cambia según el usuario
+
               onGenerateRoute: RouteUtils.onGenerateRoute,
               home: SplashScreen(),
             );

@@ -1,7 +1,7 @@
 import 'package:quizsong/core/constants/string.dart';
 import 'package:quizsong/ui/Pantallas/bottom_navigation/bottom_navigation_viewmodel.dart';
 import 'package:quizsong/ui/Pantallas/bottom_navigation/chats_list/ListaChats.dart';
-import 'package:quizsong/ui/Pantallas/bottom_navigation/profile/Pantalla_Ajustes.dart';
+import 'package:quizsong/ui/Pantallas/bottom_navigation/Ajustes/Pantalla_Ajustes.dart';
 import 'package:quizsong/ui/Pantallas/other/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
