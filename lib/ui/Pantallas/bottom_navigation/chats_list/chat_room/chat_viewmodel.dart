@@ -41,6 +41,17 @@ class ChatViewmodel extends BaseViewmodel {
     }
   }
 
+  Future<void> deleteConversation() async {
+    try {
+      // Llamada al servicio para eliminar la conversación
+      await _chatService.deleteConversation(_currentUser.uid!, _receiver.uid!);
+      _messages.clear(); // Limpiar los mensajes locales
+      notifyListeners();
+    } catch (e) {
+      throw Exception('Error al eliminar la conversación: $e');
+    }
+  }
+
   saveMessage() async {
     log("Send Message");
     try {

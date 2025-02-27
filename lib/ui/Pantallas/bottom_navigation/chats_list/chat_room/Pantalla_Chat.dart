@@ -30,7 +30,7 @@ class ChatScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       35.verticalSpace,
-                      _buildHeader(context, name: receiver.name!),
+                      _buildHeader(context, name: receiver.name!, model: model), // Pasamos 'model' aquí
                       15.verticalSpace,
                       Expanded(
                         child: ListView.separated(
@@ -41,8 +41,7 @@ class ChatScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final message = model.messages[index];
                             return ChatBubble(
-                              isCurrentUser:
-                              message.senderId == currentUser!.uid,
+                              isCurrentUser: message.senderId == currentUser!.uid,
                               message: message,
                             );
                           },
@@ -69,7 +68,7 @@ class ChatScreen extends StatelessWidget {
     );
   }
 
-  Row _buildHeader(BuildContext context, {String name = ""}) {
+  Row _buildHeader(BuildContext context, {String name = "", required ChatViewmodel model}) {
     return Row(
       children: [
         InkWell(
@@ -89,21 +88,13 @@ class ChatScreen extends StatelessWidget {
           style: h.copyWith(fontSize: 20.sp),
         ),
         const Spacer(),
-        // Icono de llamada antes de los tres puntos
-        IconButton(
-          icon: const Icon(Icons.phone),
-          onPressed: () {
-            // TODO: Implementar la lógica para realizar una llamada
-            // Puedes agregar una lógica aquí para hacer una llamada
-          },
-        ),
         // Menú de opciones
         PopupMenuButton<String>(
           onSelected: (value) {
             if (value == 'delete') {
-              // TODO: Implementar lógica para borrar la conversación
+              _confirmDeleteConversation(context, model);
             } else if (value == 'view_image') {
-              // TODO: Implementar lógica para ver la imagen del usuario
+              _showUserProfileImage(context);
             }
           },
           itemBuilder: (context) => [
@@ -128,4 +119,73 @@ class ChatScreen extends StatelessWidget {
       ],
     );
   }
+
+  // Función para mostrar la imagen de perfil del usuario o la inicial con fondo
+  void _showUserProfileImage(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        contentPadding: EdgeInsets.all(0),
+        content: Center(
+          child: receiver.imageUrl != null
+              ? Image.network(receiver.imageUrl!) // Imagen del usuario
+              : _buildInitialAvatar(receiver.name!), // Avatar con la inicial si no hay imagen
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("Cerrar"),
+          ),
+        ],
+      ),
+    );
+  }
+  void _confirmDeleteConversation(BuildContext context, ChatViewmodel model) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('¿Estás seguro?'),
+        content: Text('Esta acción eliminará toda la conversación.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("Cancelar"),
+          ),
+          TextButton(
+            onPressed: () async {
+              // Lógica para eliminar la conversación
+              await model.deleteConversation();
+              Navigator.pop(context);
+              context.showSnackbar('Conversación eliminada');
+            },
+            child: Text("Eliminar"),
+          ),
+        ],
+      ),
+    );
+  }
 }
+
+  Widget _buildInitialAvatar(String? name) {
+    String initial = name != null && name.isNotEmpty ? name[0].toUpperCase() : '?';
+    return Container(
+      width: 80.w, // Tamaño del contenedor (ajustar según sea necesario)
+      height: 80.h,
+      decoration: BoxDecoration(
+        color: Colors.blue, // Fondo de color (puedes cambiarlo o hacerlo aleatorio)
+        borderRadius: BorderRadius.circular(40.r), // Redondear el contorno
+      ),
+      child: Center(
+        child: Text(
+          initial, // La primera letra del nombre del usuario
+          style: TextStyle(
+            color: Colors.white, // Color de la letra
+            fontSize: 36.sp, // Tamaño de la letra
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
+

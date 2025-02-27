@@ -188,11 +188,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             SizedBox(height: 20),
-            ListTile(
-              leading: Icon(Icons.photo),
-              title: Text("Modificar foto de perfil"),
-              onTap: _pickImage,
-            ),
+            // ListTile(
+            //   leading: Icon(Icons.photo),
+            //   title: Text("Modificar foto de perfil"),
+            //   onTap: _pickImage,
+            // ),
             ListTile(
               leading: Icon(Icons.lock),
               title: Text("Modificar contraseña"),

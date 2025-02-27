@@ -39,8 +39,8 @@ class QuizSong extends StatelessWidget {
       builder: (context, child) => MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => UserProvider(DatabaseService())),
-          ChangeNotifierProvider(create: (context) => ThemeProvider()), // 📌 Proveedor del tema
-          ChangeNotifierProvider(create: (context) => FontSizeProvider()), // 📌 Proveedor del tamaño de la fuente
+          ChangeNotifierProvider(create: (context) => ThemeProvider()),
+          ChangeNotifierProvider(create: (context) => FontSizeProvider()),
         ],
         child: Consumer2<ThemeProvider, FontSizeProvider>(
           builder: (context, themeProvider, fontSizeProvider, child) {

@@ -11,7 +11,7 @@ class BottomNavigationScreen extends StatelessWidget {
   const BottomNavigationScreen({super.key});
 
   static final List<Widget> _screens = [
-    const Center(child: Text("Home Screen")),
+    const Center(child: Text("Pantalla del juego... ")),
     const ChatsListScreen(),
     const ProfileScreen()
   ];

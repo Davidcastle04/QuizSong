@@ -6,6 +6,8 @@ import 'package:quizsong/core/constants/styles.dart';
 import 'package:quizsong/core/models/message_model.dart';
 import 'package:quizsong/ui/widgets/Widgets_Texto.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class BottomField extends StatelessWidget {
   const BottomField({super.key, this.onTap, this.onChanged, this.controller});
@@ -13,6 +15,7 @@ class BottomField extends StatelessWidget {
   final void Function(String)? onChanged;
   final TextEditingController? controller;
 
+  // Método para abrir el modal de opciones
   void _showOptionsModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -30,7 +33,7 @@ class BottomField extends StatelessWidget {
                 title: Text("Enviar Archivo", style: body),
                 onTap: () {
                   Navigator.pop(context);
-                  // TODO: Implementar lógica para enviar archivos
+                  _handleFileSend(context);  // Llamar a la función para enviar archivo
                 },
               ),
               ListTile(
@@ -48,6 +51,55 @@ class BottomField extends StatelessWidget {
     );
   }
 
+  // Función para manejar la selección de archivo (Imagen, Audio, etc.)
+  Future<void> _handleFileSend(BuildContext context) async {
+    final ImagePicker picker = ImagePicker();
+
+    // Abre un modal para seleccionar tipo de archivo
+    final pickedFile = await showDialog<File>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Selecciona un archivo"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(Icons.image),
+                title: Text("Imagen"),
+                onTap: () async {
+                  final file = await picker.pickImage(source: ImageSource.gallery);
+                  Navigator.pop(context, file != null ? File(file.path) : null);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.audiotrack),
+                title: Text("Audio"),
+                onTap: () async {
+                  final file = await picker.pickImage(source: ImageSource.gallery);
+                  Navigator.pop(context, file != null ? File(file.path) : null);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.video_collection),
+                title: Text("Video"),
+                onTap: () async {
+                  final file = await picker.pickVideo(source: ImageSource.gallery);
+                  Navigator.pop(context, file != null ? File(file.path) : null);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (pickedFile != null) {
+      // Aquí puedes hacer lo que necesites con el archivo (subirlo, mostrarlo, etc.)
+      print("Archivo seleccionado: ${pickedFile.path}");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -56,7 +108,7 @@ class BottomField extends StatelessWidget {
       child: Row(
         children: [
           InkWell(
-            onTap: () => _showOptionsModal(context),
+            onTap: () => _showOptionsModal(context), // Abre el modal cuando se toca
             child: CircleAvatar(
               radius: 20.r,
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -65,13 +117,14 @@ class BottomField extends StatelessWidget {
           ),
           10.horizontalSpace,
           Expanded(
-              child: CustomTextfield(
-                controller: controller,
-                isChatText: true,
-                hintText: "Write message..",
-                onChanged: onChanged,
-                onTap: onTap,
-              ))
+            child: CustomTextfield(
+              controller: controller,
+              isChatText: true,
+              hintText: "Write message..",
+              onChanged: onChanged,
+              onTap: onTap,
+            ),
+          ),
         ],
       ),
     );
@@ -117,7 +170,7 @@ class ChatBubble extends StatelessWidget {
             Text(
               DateFormat('hh:mm a').format(message.timestamp!),
               style: small.copyWith(color: isCurrentUser ? white : null),
-            )
+            ),
           ],
         ),
       ),
