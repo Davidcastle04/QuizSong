@@ -9,6 +9,7 @@ import 'package:quizsong/ui/Pantallas/other/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:quizsong/webrtc/call_screen.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key, required this.receiver});
@@ -88,7 +89,24 @@ class ChatScreen extends StatelessWidget {
           style: h.copyWith(fontSize: 20.sp),
         ),
         const Spacer(),
-        // Menú de opciones
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.r),
+            color: grey.withOpacity(0.15),
+          ),
+          child: IconButton(
+            icon: const Icon(Icons.phone),
+            onPressed: () {
+              context.showSnackbar('Llamando a $name...');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CallScreen()),
+              );
+            },
+          ),
+        ),
+        10.horizontalSpace,
         PopupMenuButton<String>(
           onSelected: (value) {
             if (value == 'delete') {

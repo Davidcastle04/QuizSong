@@ -47,7 +47,7 @@ dependencies:
   image_picker: ^1.1.2
   path_provider: ^2.1.1
   flutter_feather_icons: ^2.0.0
-  flutter_webrtc: ^0.12.10
+  flutter_webrtc: ^0.12.11
   firebase_database: ^11.3.3
 
 dev_dependencies:

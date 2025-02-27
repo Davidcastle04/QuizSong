@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:quizsong/ui/Pantallas/splash/splash_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:quizsong/webrtc/call_screen.dart';
 import 'core/utils/FontSizeProvider.dart';
 import 'generated/l10n.dart';
 
@@ -46,6 +47,7 @@ class QuizSong extends StatelessWidget {
           builder: (context, themeProvider, fontSizeProvider, child) {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
+              //home:CallScreen(),
               localizationsDelegates: [
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
