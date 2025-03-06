@@ -1,3 +1,6 @@
+import 'dart:math';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:quizsong/core/constants/colors.dart';
 import 'package:quizsong/core/constants/styles.dart';
 import 'package:quizsong/core/extension/widget_extension.dart';
@@ -13,6 +16,7 @@ import 'package:quizsong/webrtc/call_screen.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key, required this.receiver});
+
   final UserModel receiver;
 
   @override
@@ -31,7 +35,7 @@ class ChatScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       35.verticalSpace,
-                      _buildHeader(context, name: receiver.name!, model: model), // Pasamos 'model' aquí
+                      _buildHeader(context, name: receiver.name!, model: model),
                       15.verticalSpace,
                       Expanded(
                         child: ListView.separated(
@@ -42,7 +46,8 @@ class ChatScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final message = model.messages[index];
                             return ChatBubble(
-                              isCurrentUser: message.senderId == currentUser!.uid,
+                              isCurrentUser: message.senderId ==
+                                  currentUser!.uid,
                               message: message,
                             );
                           },
@@ -69,11 +74,80 @@ class ChatScreen extends StatelessWidget {
     );
   }
 
-  Row _buildHeader(BuildContext context, {String name = "", required ChatViewmodel model}) {
+  void _showUserProfileImage(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        contentPadding: EdgeInsets.all(0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15), // Esquinas redondeadas
+        ),
+        content: SizedBox(
+          width: 250, // Ancho del cuadro de diálogo
+          height: 250, // Alto del cuadro de diálogo
+          child: Center(
+            child: receiver.imageUrl != null
+                ? Image.network(receiver.imageUrl!) // Imagen del usuario
+                : _buildInitialAvatar(
+                receiver.name!), // Avatar con la inicial si no hay imagen
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("Cerrar"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _confirmDeleteConversation(BuildContext context, ChatViewmodel model) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('¿Estás seguro?'),
+        content: Text('Esta acción eliminará toda la conversación.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("Cancelar"),
+          ),
+          TextButton(
+            onPressed: () async {
+              // Lógica para eliminar la conversación
+              await model.deleteConversation();
+              Navigator.pop(context);
+              context.showSnackbar('Conversación eliminada');
+            },
+            child: Text("Eliminar"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _changeBackground(BuildContext context) async {
+    // Usamos el image_picker para seleccionar una imagen
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      // Si el usuario selecciona una imagen, guardamos el archivo
+      File imageFile = File(pickedFile.path);
+
+      // Aquí puedes guardar la imagen de fondo en el estado o donde sea necesario
+      // Por ejemplo, podrías actualizar el fondo de la conversación o guardar la imagen
+      context.read<ChatViewmodel>().updateBackground(imageFile);
+    }
+  }
+
+  Row _buildHeader(BuildContext context,
+      {String name = "", required ChatViewmodel model}) {
     return Row(
       children: [
         InkWell(
-          onTap: () => Navigator.pop(context), // ✅ Acción para volver atrás
+          onTap: () => Navigator.pop(context), // Acción para volver atrás
           child: Container(
             padding: const EdgeInsets.only(left: 10, top: 6, bottom: 6),
             decoration: BoxDecoration(
@@ -113,6 +187,8 @@ class ChatScreen extends StatelessWidget {
               _confirmDeleteConversation(context, model);
             } else if (value == 'view_image') {
               _showUserProfileImage(context);
+            } else if (value == 'change_background') {
+              _changeBackground(context); // Cambiar fondo
             }
           },
           itemBuilder: (context) => [
@@ -123,6 +199,10 @@ class ChatScreen extends StatelessWidget {
             const PopupMenuItem(
               value: 'view_image',
               child: Text('Ver Imagen del Usuario'),
+            ),
+            const PopupMenuItem(
+              value: 'change_background',
+              child: Text('Cambiar Fondo'),
             ),
           ],
           child: Container(
@@ -138,72 +218,49 @@ class ChatScreen extends StatelessWidget {
     );
   }
 
-  // Función para mostrar la imagen de perfil del usuario o la inicial con fondo
-  void _showUserProfileImage(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        contentPadding: EdgeInsets.all(0),
-        content: Center(
-          child: receiver.imageUrl != null
-              ? Image.network(receiver.imageUrl!) // Imagen del usuario
-              : _buildInitialAvatar(receiver.name!), // Avatar con la inicial si no hay imagen
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text("Cerrar"),
-          ),
-        ],
+  Widget _buildChatBackground(ChatViewmodel model) {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: BoxDecoration(
+        image: model.backgroundImage != null
+            ? DecorationImage(
+          image: FileImage(model.backgroundImage!),
+          fit: BoxFit.cover,
+        )
+            : null,
       ),
     );
   }
-  void _confirmDeleteConversation(BuildContext context, ChatViewmodel model) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('¿Estás seguro?'),
-        content: Text('Esta acción eliminará toda la conversación.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text("Cancelar"),
-          ),
-          TextButton(
-            onPressed: () async {
-              // Lógica para eliminar la conversación
-              await model.deleteConversation();
-              Navigator.pop(context);
-              context.showSnackbar('Conversación eliminada');
-            },
-            child: Text("Eliminar"),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
   Widget _buildInitialAvatar(String? name) {
     String initial = name != null && name.isNotEmpty ? name[0].toUpperCase() : '?';
+
+    // Generar un color aleatorio
+    Color randomColor = Color.fromRGBO(
+      Random().nextInt(256), // Rojo (0-255)
+      Random().nextInt(256), // Verde (0-255)
+      Random().nextInt(256), // Azul (0-255)
+      1, // Opacidad (1 = completamente opaco)
+    );
+
     return Container(
-      width: 80.w, // Tamaño del contenedor (ajustar según sea necesario)
-      height: 80.h,
+      width: 90, // Tamaño cuadrado más pequeño
+      height: 90,
       decoration: BoxDecoration(
-        color: Colors.blue, // Fondo de color (puedes cambiarlo o hacerlo aleatorio)
-        borderRadius: BorderRadius.circular(40.r), // Redondear el contorno
+        shape: BoxShape.circle, // Hace que sea un círculo
+        color: randomColor, // Color de fondo aleatorio
       ),
       child: Center(
         child: Text(
-          initial, // La primera letra del nombre del usuario
+          initial, // Primera letra del nombre
           style: TextStyle(
-            color: Colors.white, // Color de la letra
-            fontSize: 36.sp, // Tamaño de la letra
+            color: Colors.white, // Color del texto
+            fontSize: 40, // Tamaño del texto
             fontWeight: FontWeight.bold,
           ),
         ),
       ),
     );
   }
-
-
+}
