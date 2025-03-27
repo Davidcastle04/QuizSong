@@ -9,6 +9,7 @@ import 'package:quizsong/ui/Pantallas/other/user_provider.dart';
 import 'package:quizsong/ui/widgets/Widgets_Texto.dart';
 
 import '../../../../core/enums/enums.dart';
+import 'chat_room/Pantalla_Chat.dart';
 
 class ChatsListScreen extends StatelessWidget {
   const ChatsListScreen({super.key});
@@ -64,10 +65,13 @@ class ChatsListScreen extends StatelessWidget {
                     final user = model.filteredUsers[index];
                     return ChatTile(
                       user: user,
-                      onTap: () => Navigator.pushNamed(
+                      onTap: () => Navigator.push(
                         context,
-                        chatRoom,
-                        arguments: user,
+                        MaterialPageRoute(
+                          builder: (context) => ChatScreen(
+                            receiver: user,
+                          ),
+                        ),
                       ),
                     );
                   },

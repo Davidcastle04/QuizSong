@@ -44,13 +44,12 @@ class ChatService {
     }
   }
 
-  // Obtener los mensajes de una conversación ordenados por timestamp
-  Stream<QuerySnapshot<Map<String, dynamic>>> getMessages(String chatRoomId) {
-    return _fire
-        .collection("chatRooms")
+  Stream<QuerySnapshot> getMessages(String chatRoomId) {
+    return FirebaseFirestore.instance
+        .collection('chatRooms')
         .doc(chatRoomId)
-        .collection("messages")
-        .orderBy("timestamp", descending: false)
+        .collection('messages')
+        .orderBy('timestamp', descending: false)
         .snapshots();
   }
 

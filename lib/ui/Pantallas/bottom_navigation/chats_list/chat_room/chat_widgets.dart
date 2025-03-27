@@ -123,6 +123,7 @@ class BottomField extends StatelessWidget {
               hintText: "Write message..",
               onChanged: onChanged,
               onTap: onTap,
+
             ),
           ),
         ],
@@ -168,8 +169,8 @@ class ChatBubble extends StatelessWidget {
             ),
             5.verticalSpace,
             Text(
-              DateFormat('hh:mm a').format(message.timestamp!),
-              style: small.copyWith(color: isCurrentUser ? white : null),
+                DateFormat('hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(message.timestamp!)),
+                style: small.copyWith(color: isCurrentUser ? white : null),
             ),
           ],
         ),
